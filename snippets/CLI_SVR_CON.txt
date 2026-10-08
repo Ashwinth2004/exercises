@@ -1,3 +1,4 @@
+// Server code
 const http = require("http");
 
 const server = http.createServer((req, res) => {
@@ -17,6 +18,7 @@ server.listen(3000, () => {
 });
 
 
+// Client code (client.js)
 const http = require("http");
 
 http.get("http://localhost:3000/hello", (res) => {
