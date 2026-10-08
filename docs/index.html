@@ -31,7 +31,7 @@
 <script>
 const menu = document.getElementById("menu");
 
-fetch("/api/snippets").then(r => r.json()).then(items => {
+fetch("snippets.json").then(r => r.json()).then(items => {
   items.forEach(({ label, code }) => {
     const b = document.createElement("button");
     b.textContent = label;
