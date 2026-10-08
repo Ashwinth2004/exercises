@@ -1,0 +1,35 @@
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+app.get("/", (req, res) => {
+  return res.send("Welcome to Express request handling");
+});
+
+app.get("/student", (req, res) => {
+  return res.send("Student details requested using GET");
+});
+
+// JSON response
+app.get("/data", (req, res) => {
+  return res.json({
+    name: "John",
+    department: "Data Science",
+    year: "Final Year"
+  });
+});
+
+// Route parameter
+app.get("/student/:name", (req, res) => {
+  const studentName = req.params.name;
+  return res.send(`Student Name: ${studentName}`);
+});
+
+// 404 handling
+app.use((req, res) => {
+  res.status(404).send("404 - Page not Found");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

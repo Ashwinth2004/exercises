@@ -1,0 +1,23 @@
+var cursor = db.students.find();
+var batch = [];
+
+if (cursor.hasNext()) {
+  print("Cursor has data");
+} else {
+  print("Cursor has no data");
+}
+
+cursor.forEach(function (student) {
+  batch.push(student);
+});
+
+if (batch.length >= 5) {
+  print("Batch");
+  batch.forEach(function (student) {
+    print(
+      "ID: " + student._id +
+      " Name: " + student.name +
+      " Marks: " + student.marks
+    );
+  });
+}

@@ -1,0 +1,44 @@
+class BankAccount {
+  constructor(owner, balance) {
+    this.owner = owner;
+    this._balance = balance;
+  }
+
+  get balance() {
+    return this._balance;
+  }
+
+  deposit(amount) {
+    this._balance += amount;
+  }
+
+  withdrawal(amount) {
+    if (amount <= this._balance) {
+      this._balance -= amount;
+    } else {
+      console.log("Insufficient balance");
+    }
+  }
+
+  display() {
+    console.log(`${this.owner}'s balance: $${this._balance}`);
+  }
+}
+
+// Create object
+const account = new BankAccount("buju", 10000);
+
+// Display initial balance
+account.display();
+
+// Deposit money
+account.deposit(7500);
+account.display();
+
+// Withdraw money
+account.withdrawal(2000);
+account.display();
+
+// Withdraw amount greater than balance
+account.withdrawal(20000);
+account.display();

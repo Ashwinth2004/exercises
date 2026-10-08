@@ -1,0 +1,31 @@
+function myfunction1() {
+  console.log("Hello from myfunction1");
+}
+
+function myfunction2() {
+  console.log("HELLO FROM MYFUNCTION2");
+}
+
+function myfunction3() {
+  var f = 3;
+  var b = 5;
+  console.log("Addition:", f + b);
+  console.log("Division:", f / b);
+  console.log("Multiplication:", f * b);
+  console.log("Subtraction:", f - b);
+  console.log("Modulus:", f % b);
+}
+
+module.exports = {
+  f: "FUNCTION",
+  myfunction1: myfunction1,
+  myfunction2: myfunction2,
+  myfunction3: myfunction3
+};
+
+
+const my = require("./module");
+console.log(my.f);
+my.myfunction1();
+my.myfunction2();
+my.myfunction3();

@@ -1,0 +1,40 @@
+// insert locations
+db.clg.insertMany([
+  {
+    name: "city library",
+    location: {
+      type: "Point",
+      coordinates: [78.1198, 9.9252]
+    }
+  },
+  {
+    name: "Two Wheeler Paking",
+    location: {
+      type: "Point",
+      coordinates: [78.1290, 9.9312]
+    }
+  },
+  {
+    name: "EatRight",
+    location: {
+      type: "Point",
+      coordinates: [78.1210, 9.9270]
+    }
+  }
+])
+
+// 2dsphere index
+db.clg.createIndex({ location: "2dsphere" })
+
+// nearby (600 m)
+db.clg.find({
+  location: {
+    $near: {
+      $geometry: {
+        type: "Point",
+        coordinates: [78.1200, 9.9260]
+      },
+      $maxDistance: 600
+    }
+  }
+})

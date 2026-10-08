@@ -1,0 +1,56 @@
+// total price
+db.products.aggregate([
+  {
+    $group: {
+      _id: null,
+      totalPrice: { $sum: "$unit-price" }
+    }
+  }
+])
+
+// max price
+db.products.aggregate([
+  { $sort: { "unit-price": -1 } },
+  { $limit: 1 },
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      "unit-price": 1
+    }
+  }
+])
+
+// expired
+db.products.find(
+  { "expiry-date": { $lt: new Date() } },
+  { _id: 0, name: 1 }
+)
+
+// category sum
+db.products.aggregate([
+  {
+    $group: {
+      _id: "$category",
+      totalPrice: { $sum: "$unit-price" }
+    }
+  }
+])
+
+// max span
+db.products.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      spanInDays: {
+        $divide: [
+          { $subtract: ["$expiry-date", new Date()] },
+          1000 * 60 * 60 * 24
+        ]
+      }
+    }
+  },
+  { $sort: { spanInDays: -1 } },
+  { $limit: 1 }
+])

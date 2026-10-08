@@ -1,0 +1,101 @@
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      fullInfo: {
+        $concat: ["$name", "-", "$city"]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      nameParts: {
+        $split: ["$name", " "]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      partOfString: {
+        $substrCP: ["$name", 1, 2]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      position: {
+        $indexOfCP: ["$name", "a"]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      name: 1,
+      result: {
+        $concat: [
+          { $toUpper: { $substrCP: ["$name", 0, 1] } },
+          { $substrCP: ["$name", 1, -1] }
+        ]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      city: {
+        $replaceOne: {
+          input: "$city",
+          find: "Salem",
+          replacement: "Tirunelveli"
+        }
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      comparison: {
+        $strcasecmp: ["$city", "SALEM"]
+      }
+    }
+  }
+])
+
+db.students.aggregate([
+  {
+    $project: {
+      _id: 0,
+      repeated: {
+        $reduce: {
+          input: { $range: [0, 3] },
+          initialValue: "",
+          in: { $concat: ["$$value", "Go"] }
+        }
+      }
+    }
+  }
+])

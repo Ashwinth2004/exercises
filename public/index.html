@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CIA 2</title>
+<style>
+  html, body { height: 100%; margin: 0; background: #fff; }
+  body { display: flex; align-items: flex-end; justify-content: flex-start; }
+
+  #menu { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 24px; }
+
+  /* white box, text hidden until hover, then black at 40% opacity */
+  button {
+    font: 6px/1 "Segoe UI", sans-serif;
+    letter-spacing: 1px;
+    color: transparent;
+    background: #fff;
+    border: 0;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: color .15s;
+  }
+  button:hover { color: rgba(0, 0, 0, 0.4); }
+  button.done { color: rgba(0, 0, 0, 0.8); }
+</style>
+</head>
+<body>
+<div id="menu"></div>
+
+<script>
+const menu = document.getElementById("menu");
+
+fetch("/api/snippets").then(r => r.json()).then(items => {
+  items.forEach(({ label, code }) => {
+    const b = document.createElement("button");
+    b.textContent = label;
+    b.onclick = () => copy(code).then(() => {
+      b.classList.add("done");
+      setTimeout(() => b.classList.remove("done"), 400);
+    });
+    menu.appendChild(b);
+  });
+});
+
+function copy(text) {
+  if (navigator.clipboard) return navigator.clipboard.writeText(text);
+  const t = document.createElement("textarea");
+  t.value = text;
+  document.body.appendChild(t);
+  t.select();
+  document.execCommand("copy");
+  t.remove();
+  return Promise.resolve();
+}
+</script>
+</body>
+</html>

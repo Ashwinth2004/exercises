@@ -1,0 +1,34 @@
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  if (req.method === "GET" && req.url === "/hello") {
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("hello from node.js server!");
+  } else {
+    res.statusCode = 404;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("404 - not found");
+  }
+});
+
+server.listen(3000, () => {
+  console.log("Server listening on http://localhost:3000");
+});
+
+
+const http = require("http");
+
+http.get("http://localhost:3000/hello", (res) => {
+  let data = "";
+
+  res.on("data", (chunk) => {
+    data += chunk;
+  });
+
+  res.on("end", () => {
+    console.log("Server response:", data);
+  });
+}).on("error", (err) => {
+  console.log("Error:", err.message);
+});

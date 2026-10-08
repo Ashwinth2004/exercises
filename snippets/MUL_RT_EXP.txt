@@ -1,0 +1,30 @@
+const express = require("express");
+const app = express();
+const PORT = 3000;
+
+// Home route
+app.get("/", (req, res) => {
+  res.send("Welcome to my home page");
+});
+
+app.get("/about", (req, res) => {
+  res.send("This is my about page");
+});
+
+app.get("/contact", (req, res) => {
+  res.send("Contact us at contact@example.com");
+});
+
+app.get("/students", (req, res) => {
+  res.send("Welcome to students page");
+});
+
+// 404 route
+app.use((req, res) => {
+  res.status(404).send("404 - Page not found");
+});
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
